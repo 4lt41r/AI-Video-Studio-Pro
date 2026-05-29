@@ -35,11 +35,20 @@ scripts\setup-portable.bat
 
 This script will:
 1. Create a Python virtual environment at `env/`
-2. Install all Python packages into `env/` (not system-wide)
-3. Install Node.js packages into `app/frontend/node_modules/`
-4. Install Electron into `app/desktop/node_modules/`
-5. Verify FFmpeg is present and working
-6. Write setup completion status to `logs/build-log.md`
+2. Install core Python packages into `env/` (FastAPI, uvicorn, etc.)
+3. Attempt to install optional AI packages (`faster-whisper`) — warns but does not fail if unavailable
+4. Install Node.js packages into `app/frontend/node_modules/`
+5. Install Electron into `app/desktop/node_modules/` and download the Electron binary
+6. Verify FFmpeg is present and working
+7. Write setup completion status to `logs/build-log.md`
+
+**Note on AI packages:** `faster-whisper` is in `app/backend/requirements-ai.txt` (separate from core requirements). If it fails to install due to network or compiler issues, the app still works — only auto-captions are unavailable until it is installed.
+
+**Note on Electron binary:** Electron's npm package does not bundle `electron.exe`. Setup explicitly downloads it after `npm install`. If the download fails (network issue), run manually:
+```batch
+cd app\desktop
+node node_modules\electron\install.js
+```
 
 ### Step 3: Launch the App
 

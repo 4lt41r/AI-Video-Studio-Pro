@@ -584,3 +584,22 @@ until all exit criteria are marked complete.
 - [x] Version file exists and matches config
 
 **Phase 18 Status: ✅ COMPLETE — 2026-05-29**
+
+---
+
+## Post-Release Hotfixes — v1.0.1 (2026-05-29)
+
+Bugs discovered during first-run setup testing after release. All fixed same day.
+
+- [x] **Fix 1** — Batch script ROOT detection: `%~dp0..` + `~0,-1` strip → `for %%i` canonical expansion (all 7 scripts)
+- [x] **Fix 2** — `pip.exe` access denied on self-upgrade → `python -m pip` in setup + repair
+- [x] **Fix 3** — `npm install --silent` hid EPERM errors → `--no-audit --no-fund` in setup + repair
+- [x] **Fix 4** — npm workspaces symlink EPERM on Windows → removed `workspaces` from root `package.json`
+- [x] **Fix 5** — Electron binary not downloaded by npm → `node node_modules\electron\install.js` explicit call in setup + repair
+- [x] **Fix 6** — Vite dev server never started (path quoting bug in `start-app.bat`) → `start /d` pattern
+- [x] **Fix 7** — Splash window destruction killed backend before main window existed (`main.js`) → create main window before destroying splash
+- [x] **Fix 8** — `get_db()` `RuntimeError: threads can only be started once` (`database.py` + 6 API files) → `@asynccontextmanager`, 28 call sites fixed
+- [x] **Fix 9** — 7 TypeScript build errors (`types/index.ts`, `client.ts`, `MediaPanel.tsx`, `Editor.tsx`) → all resolved
+- [x] **Fix 10** — `faster-whisper` in `requirements.txt` blocked core install → moved to `requirements-ai.txt`
+
+**v1.0.1 Status: ✅ COMPLETE — 2026-05-29**

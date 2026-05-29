@@ -203,6 +203,62 @@ Then relaunch the app. Note: Electron is the sole owner of the backend process i
 
 ---
 
+### Setup shows wrong Project Root (scripts\ instead of project root)
+
+**Symptom:** Setup prints `Project Root: ...\AI-Video-Studio-Pro\scripts\.` and creates `env\` inside `scripts\` instead of the project root.
+
+**What happened:** This was a bug in v1.0.0 batch scripts (fixed in v1.0.1). `%~dp0` already includes a trailing backslash, so appending `..` and stripping one character with `~0,-1` yielded `.` (the scripts folder) instead of the parent.
+
+**Fix:** Pull the latest scripts from the repo (`git pull`) and delete the stale venv:
+```batch
+rd /s /q "F:\...\AI-Video-Studio-Pro\scripts\env"
+scripts\setup-portable.bat
+```
+
+---
+
+### Electron fails to launch — "Electron failed to install correctly"
+
+**Symptom:** `start-app.bat` prints `Error: Electron failed to install correctly, please delete node_modules/electron and try installing again`.
+
+**What happened:** The Electron binary (`electron.exe`) is downloaded by a postinstall script separate from `npm install`. That download was silently skipped.
+
+**Fix:** Run the install script manually:
+```batch
+cd app\desktop
+node node_modules\electron\install.js
+```
+Requires an internet connection. The binary is ~100 MB.
+
+---
+
+### Electron launches but immediately closes — `spawn EPERM` / `ERR_FAILED (-2) loading 'http://localhost:5173'`
+
+**Symptom:** Electron window flashes and closes, or the console shows `spawn EPERM errno -4048`.
+
+**Cause 1 — Windows blocked the binary:** Windows marks downloaded executables as potentially unsafe.
+**Fix:** Run in an admin PowerShell:
+```powershell
+Unblock-File -Path "...\app\desktop\node_modules\electron\dist\electron.exe"
+```
+Or add the project folder to Windows Defender exclusions (recommended for development).
+
+**Cause 2 — Vite not starting (path quoting bug):** This was a bug in v1.0.0 `start-app.bat` (fixed in v1.0.1). Pull latest and relaunch.
+
+**Cause 3 — Splash/main window race (fixed in v1.0.1):** The loading splash was destroyed before the main window existed, triggering `window-all-closed` → backend killed → app quit. Fixed in `main.js`.
+
+---
+
+### `/api/projects` returns 500 — `RuntimeError: threads can only be started once`
+
+**Symptom:** Home dashboard shows "Cannot connect to backend" or the console shows a 500 on `/api/projects` with `RuntimeError: threads can only be started once` from aiosqlite.
+
+**What happened:** This was a bug in v1.0.0 `database.py` (fixed in v1.0.1). `get_db()` returned an already-awaited `Connection`, and callers used `async with await get_db()` which tried to start the background thread a second time.
+
+**Fix:** Pull the latest backend code (`git pull`) and restart the app.
+
+---
+
 ## Log Files
 
 | File | Contents |
