@@ -30,6 +30,7 @@ export interface MediaItem {
   size_bytes: number
   thumbnail?: string
   proxy_path?: string
+  has_audio?: boolean
   created_at: string
   missing?: boolean
 }

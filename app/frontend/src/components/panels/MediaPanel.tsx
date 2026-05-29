@@ -148,7 +148,7 @@ export default function MediaPanel({ projectId }: { projectId: string }) {
         addItems(imported)
         notify(`Imported ${imported.length} file${imported.length > 1 ? 's' : ''}`, 'success')
       } else {
-        notify('No supported files found in selection', 'warning')
+        notify('No supported files found in selection', 'info')
       }
     } catch (e: any) {
       notify(e.message ?? 'Import failed', 'error')

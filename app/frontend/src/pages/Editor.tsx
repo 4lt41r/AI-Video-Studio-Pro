@@ -80,8 +80,8 @@ export default function EditorPage() {
   }, [])
 
   const handleTimelineResize = useCallback((delta: number) => {
-    setTimelineH(prev => Math.max(120, Math.min(600, prev - delta)))
-  }, [setTimelineH])
+    setTimelineH(Math.max(120, Math.min(600, timelineHeight - delta)))
+  }, [setTimelineH, timelineHeight])
 
   return (
     <div className="h-full w-full flex flex-col overflow-hidden bg-surface-0">

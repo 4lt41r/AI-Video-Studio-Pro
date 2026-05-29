@@ -56,7 +56,7 @@ export const api = {
 }
 
 // ── System ────────────────────────────────────────────────────────────────────
-export const fetchHealth   = () => api.get<{ status: string; version: string; uptime_s: number }>('/api/health')
+export const fetchHealth   = () => api.get<import('../types').HealthStatus>('/api/health')
 export const systemRestart = () => api.post<{ status: string }>('/api/system/restart')
 
 // ── Projects ──────────────────────────────────────────────────────────────────
