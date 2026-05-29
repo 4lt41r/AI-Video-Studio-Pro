@@ -118,8 +118,10 @@ app.whenReady().then(async () => {
     console.error('Backend failed to start:', e.message)
   }
 
-  if (mainWindow && !mainWindow.isDestroyed()) mainWindow.destroy()
+  const splash = mainWindow
+  mainWindow = null
   await createWindow()
+  if (splash && !splash.isDestroyed()) splash.destroy()
 })
 
 app.on('window-all-closed', () => {
