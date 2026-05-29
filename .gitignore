@@ -1,0 +1,49 @@
+# Python
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Node
+app/frontend/node_modules/
+app/desktop/node_modules/
+app/frontend/dist/
+
+# User data
+projects/
+uploads/
+exports/
+cache/
+temp/
+
+# Database (user data)
+database/*.sqlite
+database/*.sqlite-wal
+database/*.sqlite-shm
+
+# AI model weights (large binaries)
+models/whisper/*.bin
+models/whisper/*.pt
+models/whisper/*.gguf
+
+# FFmpeg binaries (large)
+bin/ffmpeg/*.exe
+bin/ffmpeg/*.dll
+
+# Logs (generated at runtime)
+logs/*.md
+logs/*.log
+logs/*.txt
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp

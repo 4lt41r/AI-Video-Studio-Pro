@@ -1,0 +1,32 @@
+{
+  "name": "avsp-desktop",
+  "version": "0.1.0",
+  "description": "AI Video Studio Pro — Electron wrapper",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "dev":   "node dev.js",
+    "start": "electron .",
+    "build": "electron-builder --win --x64",
+    "pack":  "electron-builder --dir"
+  },
+  "devDependencies": {
+    "electron": "^31.2.1",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.aivideostudiopro",
+    "productName": "AI Video Studio Pro",
+    "directories": {
+      "output": "../../dist-electron"
+    },
+    "files": [
+      "main.js",
+      "preload.js"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "../../assets/icons/icon.ico"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "whisper": {
+    "enabled": true,
+    "default_model": "base",
+    "available_models": [
+      {
+        "id": "tiny",
+        "name": "Tiny",
+        "size_mb": 75,
+        "description": "Fastest, basic accuracy. Good for quick drafts.",
+        "languages": "multilingual"
+      },
+      {
+        "id": "base",
+        "name": "Base",
+        "size_mb": 145,
+        "description": "Good balance of speed and accuracy. Recommended default.",
+        "languages": "multilingual"
+      },
+      {
+        "id": "small",
+        "name": "Small",
+        "size_mb": 465,
+        "description": "Better accuracy, moderate speed.",
+        "languages": "multilingual"
+      },
+      {
+        "id": "medium",
+        "name": "Medium",
+        "size_mb": 1500,
+        "description": "High accuracy, slower. Good for final captions.",
+        "languages": "multilingual"
+      },
+      {
+        "id": "large-v3",
+        "name": "Large v3",
+        "size_mb": 3100,
+        "description": "Best accuracy, very slow. Production quality.",
+        "languages": "multilingual"
+      }
+    ],
+    "default_language": "auto",
+    "word_timestamps": true,
+    "beam_size": 5,
+    "vad_filter": true,
+    "use_faster_whisper": true
+  },
+  "scene_detection": {
+    "enabled": false,
+    "model": "pyscenedetect",
+    "threshold": 27.0,
+    "min_scene_length_s": 1.0
+  },
+  "background_removal": {
+    "enabled": false,
+    "model": "rembg",
+    "model_path": "models/background-removal/u2net.onnx"
+  },
+  "upscaling": {
+    "enabled": false,
+    "model": "realesrgan",
+    "model_path": "models/upscaling",
+    "scale": 4
+  },
+  "beat_detection": {
+    "enabled": true,
+    "engine": "librosa",
+    "onset_aggregate": "median",
+    "tightness": 100,
+    "snap_to_onset": true
+  },
+  "silence_detection": {
+    "enabled": true,
+    "threshold_db": -35,
+    "min_silence_duration_s": 0.5,
+    "keep_padding_s": 0.1
+  },
+  "processing": {
+    "device": "auto",
+    "max_workers": 2
+  }
+}

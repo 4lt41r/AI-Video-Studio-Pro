@@ -1,0 +1,61 @@
+{
+  "app": {
+    "name": "AI Video Studio Pro",
+    "version": "1.0.0",
+    "phase": 18,
+    "build_date": "2026-05-29",
+    "channel": "release"
+  },
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8000,
+    "cors_origins": ["http://localhost:5173", "http://127.0.0.1:5173"]
+  },
+  "editor": {
+    "autosave_interval_s": 30,
+    "max_undo_history": 100,
+    "default_timeline_zoom": 1.0,
+    "default_preview_quality": "half",
+    "snap_to_clips": true,
+    "snap_to_playhead": true,
+    "snap_threshold_px": 8
+  },
+  "media": {
+    "supported_video": [".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v", ".wmv", ".flv", ".ts", ".mts", ".mxf"],
+    "supported_audio": [".mp3", ".aac", ".wav", ".flac", ".ogg", ".m4a", ".wma"],
+    "supported_image": [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".tiff"],
+    "thumbnail_width": 256,
+    "thumbnail_height": 144,
+    "proxy_threshold_pixels": 1920,
+    "generate_proxy": false
+  },
+  "cache": {
+    "max_size_gb": 5,
+    "thumbnail_quality": 85,
+    "auto_clean_on_start": false,
+    "temp_clean_on_start": true
+  },
+  "performance": {
+    "max_concurrent_exports": 1,
+    "max_concurrent_thumbnails": 4,
+    "ffmpeg_threads": 0,
+    "preview_fps_cap": 30
+  },
+  "ui": {
+    "theme": "dark",
+    "default_panel_layout": "standard",
+    "show_fps_counter": false,
+    "show_timeline_waveforms": true,
+    "timeline_default_track_height": 56,
+    "language": "en"
+  },
+  "security": {
+    "validate_file_types": true,
+    "max_upload_size_mb": 10240,
+    "allow_system_paths": false
+  },
+  "updates": {
+    "check_on_start": false,
+    "update_url": ""
+  }
+}

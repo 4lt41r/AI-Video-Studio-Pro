@@ -1,0 +1,12 @@
+{
+  "id": "sample",
+  "name": "Sample Plugin",
+  "version": "1.0.0",
+  "author": "AI Video Studio",
+  "description": "Demonstrates the plugin API with a ping endpoint and creative text suggestions. A good starting point for building your own plugins.",
+  "entry_point": "plugin.py",
+  "enabled": true,
+  "builtin": true,
+  "api_prefix": "/api/plugins/sample",
+  "tags": ["demo", "sample", "builtin"]
+}
