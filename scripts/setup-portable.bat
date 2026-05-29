@@ -47,8 +47,8 @@ if exist "env\Scripts\python.exe" (
 echo.
 echo [3/6] Installing Python packages into env\...
 echo       This may take several minutes on first run.
-"env\Scripts\pip.exe" install --upgrade pip --quiet
-"env\Scripts\pip.exe" install -r "app\backend\requirements.txt" --quiet
+"env\Scripts\python.exe" -m pip install --upgrade pip --quiet
+"env\Scripts\python.exe" -m pip install -r "app\backend\requirements.txt" --quiet
 if errorlevel 1 (
     echo [FAIL] Python package installation failed.
     echo        Check app\backend\requirements.txt and try again.

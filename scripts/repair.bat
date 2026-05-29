@@ -51,8 +51,8 @@ set /a PASS+=1
 :: ── Python packages ───────────────────────────────────────
 echo.
 echo [2/4] Python packages...
-"env\Scripts\pip.exe" install --upgrade pip --quiet
-"env\Scripts\pip.exe" install -r "app\backend\requirements.txt" --quiet
+"env\Scripts\python.exe" -m pip install --upgrade pip --quiet
+"env\Scripts\python.exe" -m pip install -r "app\backend\requirements.txt" --quiet
 if errorlevel 1 (
     echo [FAIL] Python package install failed.
     set /a FAIL+=1
