@@ -1,12 +1,8 @@
 {
   "name": "ai-video-studio-pro",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Portable AI-powered professional video editing workstation",
   "private": true,
-  "workspaces": [
-    "app/frontend",
-    "app/desktop"
-  ],
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:electron\"",
     "dev:frontend": "cd app/frontend && npm run dev",
