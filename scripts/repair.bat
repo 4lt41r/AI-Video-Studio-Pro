@@ -7,8 +7,7 @@ setlocal EnableDelayedExpansion
 :: Does NOT touch user data (projects, exports, database).
 :: ============================================================
 
-set "ROOT=%~dp0.."
-set "ROOT=%ROOT:~0,-1%"
+for %%i in ("%~dp0..") do set "ROOT=%%~fi"
 cd /d "%ROOT%"
 
 echo.

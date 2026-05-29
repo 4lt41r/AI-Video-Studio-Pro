@@ -7,8 +7,7 @@ setlocal EnableDelayedExpansion
 :: Run this once before using start-prod.bat.
 :: ============================================================
 
-set "ROOT=%~dp0.."
-set "ROOT=%ROOT:~0,-1%"
+for %%i in ("%~dp0..") do set "ROOT=%%~fi"
 cd /d "%ROOT%"
 
 echo.

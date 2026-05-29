@@ -7,8 +7,7 @@ setlocal EnableDelayedExpansion
 :: Requires: scripts\build-frontend.bat run first.
 :: ============================================================
 
-set "ROOT=%~dp0.."
-set "ROOT=%ROOT:~0,-1%"
+for %%i in ("%~dp0..") do set "ROOT=%%~fi"
 cd /d "%ROOT%"
 
 echo.
