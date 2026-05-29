@@ -65,7 +65,7 @@ if errorlevel 1 (
     goto :error
 )
 cd app\frontend
-call npm install --silent
+call npm install --no-audit --no-fund
 if errorlevel 1 (
     echo [FAIL] Frontend npm install failed.
     cd /d "%ROOT%"
@@ -78,7 +78,7 @@ echo [OK]   Frontend packages installed.
 echo.
 echo [5/6] Installing Electron packages (app\desktop)...
 cd app\desktop
-call npm install --silent
+call npm install --no-audit --no-fund
 if errorlevel 1 (
     echo [FAIL] Desktop npm install failed.
     cd /d "%ROOT%"
