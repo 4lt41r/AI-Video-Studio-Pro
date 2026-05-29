@@ -33,9 +33,9 @@ if not exist "app\frontend\node_modules" (
 :: ── Start Frontend dev server ─────────────────────────────────
 :: (Backend is spawned by Electron — do not start it separately)
 echo [1/2] Starting frontend dev server (port 5173)...
-start "AVSP-Frontend" /min cmd /c "cd /d "%ROOT%\app\frontend" && npm run dev"
+start "AVSP-Frontend" /min /d "%ROOT%\app\frontend" cmd /c "npm run dev"
 
-:: Wait for Vite to be ready
+:: Give Vite a moment before Electron starts polling
 timeout /t 3 /nobreak >nul
 
 :: ── Launch Electron window (spawns backend internally) ────────
