@@ -48,7 +48,7 @@ echo.
 echo [3/6] Installing Python packages into env\...
 echo       This may take several minutes on first run.
 "env\Scripts\python.exe" -m pip install --upgrade pip --quiet
-"env\Scripts\python.exe" -m pip install -r "app\backend\requirements.txt" --quiet
+"env\Scripts\python.exe" -m pip install -r "app\backend\requirements.txt" --no-cache-dir
 if errorlevel 1 (
     echo [FAIL] Core Python package installation failed.
     echo        Check app\backend\requirements.txt and try again.
@@ -59,7 +59,7 @@ echo.
 echo       Installing optional AI packages (faster-whisper)...
 echo       This may take several minutes. Skip errors here — AI captions
 echo       can be installed later via Settings ^> AI Models.
-"env\Scripts\python.exe" -m pip install -r "app\backend\requirements-ai.txt" --quiet
+"env\Scripts\python.exe" -m pip install -r "app\backend\requirements-ai.txt" --no-cache-dir
 if errorlevel 1 (
     echo [WARN] faster-whisper could not be installed.
     echo        AI captions will not work until installed manually.

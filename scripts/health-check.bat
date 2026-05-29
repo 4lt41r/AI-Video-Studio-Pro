@@ -65,8 +65,8 @@ if exist "env\Scripts\python.exe" (
 :: ── Python packages ───────────────────────────────────────────
 echo.
 echo Checking Python packages...
-if exist "env\Scripts\pip.exe" (
-    "env\Scripts\pip.exe" show fastapi >nul 2>&1
+if exist "env\Scripts\python.exe" (
+    "env\Scripts\python.exe" -m pip show fastapi >nul 2>&1
     if errorlevel 1 (
         echo   [FAIL] FastAPI not installed in env\
         echo          Run: scripts\setup-portable.bat
@@ -76,7 +76,7 @@ if exist "env\Scripts\pip.exe" (
         set /a PASS+=1
     )
 ) else (
-    echo   [FAIL] pip not found in env\
+    echo   [FAIL] Python env not found — run scripts\setup-portable.bat
     set /a FAIL+=1
 )
 
