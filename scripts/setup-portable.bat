@@ -96,6 +96,13 @@ if errorlevel 1 (
     cd /d "%ROOT%"
     goto :error
 )
+echo       Downloading Electron binary...
+node node_modules\electron\install.js
+if errorlevel 1 (
+    echo [WARN] Electron binary download failed.
+    echo        Check your internet connection and re-run setup,
+    echo        or run manually: cd app\desktop ^&^& node node_modules\electron\install.js
+)
 cd /d "%ROOT%"
 echo [OK]   Electron packages installed.
 

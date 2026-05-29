@@ -94,6 +94,11 @@ if errorlevel 1 (
     cd /d "%ROOT%"
     set /a FAIL+=1
 ) else (
+    echo       Downloading Electron binary...
+    node node_modules\electron\install.js
+    if errorlevel 1 (
+        echo [WARN] Electron binary download failed — re-run repair or check internet.
+    )
     echo [OK]   Electron packages installed.
     cd /d "%ROOT%"
     set /a PASS+=1
