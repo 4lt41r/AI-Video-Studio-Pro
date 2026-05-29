@@ -46,7 +46,7 @@ def _write_backup(project_id: str, state: dict, now_iso: str) -> None:
 
 @router.get("/{project_id}/timeline", summary="Load timeline state")
 async def get_timeline(project_id: str):
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall(
             "SELECT * FROM timelines WHERE project_id=?", (project_id,)
         )
@@ -63,7 +63,7 @@ async def get_timeline(project_id: str):
 @router.put("/{project_id}/timeline", summary="Save timeline state")
 async def save_timeline(project_id: str, body: TimelineSave):
     now = datetime.now(timezone.utc).isoformat()
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             """INSERT INTO timelines (project_id, state, version, saved_at) VALUES (?,?,1,?)
                ON CONFLICT(project_id) DO UPDATE SET
@@ -109,7 +109,7 @@ async def restore_backup(project_id: str, filename: str):
 
     state = json.loads(bfile.read_text(encoding="utf-8"))
     now   = datetime.now(timezone.utc).isoformat()
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             """INSERT INTO timelines (project_id, state, version, saved_at) VALUES (?,?,1,?)
                ON CONFLICT(project_id) DO UPDATE SET

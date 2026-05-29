@@ -43,7 +43,7 @@ def _row_to_project(row) -> ProjectOut:
 
 @router.get("", summary="List all projects")
 async def list_projects():
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall(
             "SELECT * FROM projects ORDER BY updated_at DESC"
         )
@@ -54,7 +54,7 @@ async def list_projects():
 async def create_project(body: ProjectCreate):
     now = datetime.now(timezone.utc).isoformat()
     pid = str(uuid.uuid4())
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             "INSERT INTO projects (id,name,aspect_ratio,width,height,fps,created_at,updated_at) "
             "VALUES (?,?,?,?,?,?,?,?)",
@@ -73,7 +73,7 @@ async def create_project(body: ProjectCreate):
 
 @router.get("/{project_id}", summary="Get a project")
 async def get_project(project_id: str):
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall("SELECT * FROM projects WHERE id=?", (project_id,))
     if not rows:
         raise HTTPException(404, "Project not found")
@@ -82,6 +82,6 @@ async def get_project(project_id: str):
 
 @router.delete("/{project_id}", status_code=204, summary="Delete a project")
 async def delete_project(project_id: str):
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute("DELETE FROM projects WHERE id=?", (project_id,))
         await db.commit()

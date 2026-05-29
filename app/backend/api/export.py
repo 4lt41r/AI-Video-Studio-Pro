@@ -28,7 +28,7 @@ _QUALITY_CRF = {"high": 16, "medium": 20, "web": 24}
 
 @router.get("/history", summary="Export history")
 async def export_history(limit: int = Query(default=30, le=100)):
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall(
             """SELECT e.id, e.project_id, e.preset, e.output_path, e.status,
                       e.started_at, e.finished_at, e.error,
@@ -82,7 +82,7 @@ async def start_export(body: ExportStart):
     crf_override = _QUALITY_CRF.get(body.quality)
 
     # Verify project
-    async with await get_db() as db:
+    async with get_db() as db:
         proj_rows = await db.execute_fetchall("SELECT * FROM projects WHERE id=?", (body.project_id,))
     if not proj_rows:
         raise HTTPException(404, "Project not found")
@@ -101,7 +101,7 @@ async def start_export(body: ExportStart):
     job_id  = str(uuid.uuid4())
     now_iso = now.isoformat()
 
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             "INSERT INTO jobs (id,type,project_id,status,progress,created_at,updated_at) "
             "VALUES (?,?,?,?,?,?,?)",
@@ -116,7 +116,7 @@ async def start_export(body: ExportStart):
         await db.commit()
 
     # Load project media map
-    async with await get_db() as db:
+    async with get_db() as db:
         media_rows = await db.execute_fetchall(
             "SELECT * FROM media WHERE project_id=?", (body.project_id,)
         )
@@ -130,7 +130,7 @@ async def start_export(body: ExportStart):
 
     async def _update_job(status: str, progress: float, error: str | None) -> None:
         updated = datetime.now(timezone.utc).isoformat()
-        async with await get_db() as db:
+        async with get_db() as db:
             await db.execute(
                 "UPDATE jobs SET status=?,progress=?,error=?,updated_at=? WHERE id=?",
                 (status, progress, error, updated, job_id),
@@ -172,7 +172,7 @@ async def start_export(body: ExportStart):
 
 @router.get("/{export_id}", summary="Get export status")
 async def get_export(export_id: str):
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall("SELECT * FROM jobs WHERE id=?", (export_id,))
     if not rows:
         raise HTTPException(404, "Export not found")
@@ -183,7 +183,7 @@ async def get_export(export_id: str):
 async def cancel_export(export_id: str):
     was_running = render_engine.cancel(export_id)
     updated = datetime.now(timezone.utc).isoformat()
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             "UPDATE jobs SET status='cancelled',updated_at=? WHERE id=? AND status='running'",
             (updated, export_id),

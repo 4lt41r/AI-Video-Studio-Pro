@@ -66,7 +66,7 @@ def _row_to_media(row) -> MediaOut:
 
 @router.get("/{project_id}/media", summary="List project media")
 async def list_media(project_id: str):
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall(
             "SELECT * FROM media WHERE project_id=? ORDER BY created_at DESC",
             (project_id,),
@@ -77,7 +77,7 @@ async def list_media(project_id: str):
 @router.post("/{project_id}/media", status_code=201, summary="Import media files")
 async def import_media(project_id: str, body: MediaImport):
     # Verify project exists
-    async with await get_db() as db:
+    async with get_db() as db:
         proj = await db.execute_fetchall("SELECT id FROM projects WHERE id=?", (project_id,))
     if not proj:
         raise HTTPException(404, "Project not found")
@@ -89,7 +89,7 @@ async def import_media(project_id: str, body: MediaImport):
     thumb_dir = config.PROJECTS_DIR / project_id / "thumbnails"
     thumb_dir.mkdir(parents=True, exist_ok=True)
 
-    async with await get_db() as db:
+    async with get_db() as db:
         for raw_path in body.paths:
             p = Path(raw_path)
             if not p.exists():
@@ -158,7 +158,7 @@ def _mime(ext: str) -> str:
 
 @router.get("/{project_id}/media/{media_id}/stream", summary="Stream a media file (Range-aware)")
 async def stream_media(project_id: str, media_id: str, request: Request):
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall(
             "SELECT path FROM media WHERE id=? AND project_id=?", (media_id, project_id)
         )
@@ -228,7 +228,7 @@ async def stream_media(project_id: str, media_id: str, request: Request):
 
 @router.get("/{project_id}/media/{media_id}/waveform", summary="Get audio waveform peaks")
 async def get_waveform(project_id: str, media_id: str, peaks: int = 200):
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall(
             "SELECT path, has_audio FROM media WHERE id=? AND project_id=?",
             (media_id, project_id),
@@ -250,7 +250,7 @@ async def get_waveform(project_id: str, media_id: str, peaks: int = 200):
 
 @router.post("/{project_id}/media/{media_id}/extract-audio", status_code=201, summary="Extract audio track from video")
 async def extract_audio(project_id: str, media_id: str):
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall(
             "SELECT * FROM media WHERE id=? AND project_id=?",
             (media_id, project_id),
@@ -301,7 +301,7 @@ async def extract_audio(project_id: str, media_id: str):
     now  = datetime.now(timezone.utc).isoformat()
     meta = await ffprobe_engine.probe(out_path)
 
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             "INSERT INTO media "
             "(id,project_id,name,path,type,size_bytes,duration_s,width,height,fps,has_audio,thumbnail,created_at) "
@@ -324,7 +324,7 @@ async def extract_audio(project_id: str, media_id: str):
 
 @router.post("/{project_id}/media/{media_id}/proxy", status_code=202, summary="Generate low-res proxy")
 async def generate_proxy(project_id: str, media_id: str):
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall(
             "SELECT * FROM media WHERE id=? AND project_id=?", (media_id, project_id)
         )
@@ -344,7 +344,7 @@ async def generate_proxy(project_id: str, media_id: str):
         raise HTTPException(500, "Proxy generation failed — check logs")
 
     proxy_url = f"/media-files/{project_id}/proxies/{proxy_path.name}"
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             "UPDATE media SET proxy_path=? WHERE id=?", (proxy_url, media_id)
         )
@@ -355,7 +355,7 @@ async def generate_proxy(project_id: str, media_id: str):
 
 @router.delete("/{project_id}/media/{media_id}", status_code=204, summary="Remove media")
 async def delete_media(project_id: str, media_id: str):
-    async with await get_db() as db:
+    async with get_db() as db:
         # Also clean up thumbnail file
         rows = await db.execute_fetchall(
             "SELECT thumbnail FROM media WHERE id=? AND project_id=?", (media_id, project_id)

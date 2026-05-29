@@ -1,5 +1,6 @@
 """SQLite database setup with async access via aiosqlite."""
 import aiosqlite
+from contextlib import asynccontextmanager
 from config import DATABASE_PATH
 
 SCHEMA = """
@@ -69,12 +70,13 @@ CREATE TABLE IF NOT EXISTS jobs (
 );
 """
 
-async def get_db() -> aiosqlite.Connection:
-    db = await aiosqlite.connect(DATABASE_PATH)
-    db.row_factory = aiosqlite.Row
-    await db.execute("PRAGMA journal_mode=WAL")
-    await db.execute("PRAGMA foreign_keys=ON")
-    return db
+@asynccontextmanager
+async def get_db():
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        await db.execute("PRAGMA journal_mode=WAL")
+        await db.execute("PRAGMA foreign_keys=ON")
+        yield db
 
 async def init_db():
     async with aiosqlite.connect(DATABASE_PATH) as db:

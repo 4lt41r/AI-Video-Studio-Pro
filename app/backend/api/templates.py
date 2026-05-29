@@ -91,7 +91,7 @@ async def apply_template(template_id: str, body: ApplyTemplateRequest):
         raise HTTPException(404, f"Template '{template_id}' not found")
 
     # Verify project exists
-    async with await get_db() as db:
+    async with get_db() as db:
         rows = await db.execute_fetchall(
             "SELECT id FROM projects WHERE id=?", (body.project_id,)
         )
@@ -102,7 +102,7 @@ async def apply_template(template_id: str, body: ApplyTemplateRequest):
     state = tmpl_engine.build_initial_timeline(tmpl, body.project_id)
     now   = datetime.now(timezone.utc).isoformat()
 
-    async with await get_db() as db:
+    async with get_db() as db:
         await db.execute(
             """INSERT INTO timelines (project_id, state, version, saved_at) VALUES (?,?,1,?)
                ON CONFLICT(project_id) DO UPDATE SET
